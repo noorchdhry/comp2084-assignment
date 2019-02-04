@@ -1,0 +1,46 @@
+﻿@model IEnumerable<comp2084_assignment1.Models.SubTask>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskList.TaskName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubStatus)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskList.TaskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubStatus)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SubID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SubID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SubID })
+        </td>
+    </tr>
+}
+
+</table>
