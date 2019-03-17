@@ -7,9 +7,12 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (Request.IsAuthenticated)
+{
+    <p>@Html.ActionLink("Create New", "Create")</p>
+}
+
+
 <table class="table">
     <tr>
         <th>
@@ -24,23 +27,28 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @if (Request.IsAuthenticated)
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.TaskID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.TaskID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.TaskID })
+                </td>
+            }
+
+        </tr>
+    }
 
 </table>

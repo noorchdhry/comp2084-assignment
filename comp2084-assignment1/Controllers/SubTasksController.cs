@@ -10,11 +10,13 @@ using comp2084_assignment1.Models;
 
 namespace comp2084_assignment1.Controllers
 {
+    [Authorize]
     public class SubTasksController : Controller
     {
         private DbModel db = new DbModel();
 
         // GET: SubTasks
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var subTasks = db.SubTasks.Include(s => s.TaskList);

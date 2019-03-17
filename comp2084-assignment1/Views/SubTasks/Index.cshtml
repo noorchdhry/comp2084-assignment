@@ -7,9 +7,13 @@
 
 <h2>Index</h2>
 
-<p>
+@if (Request.IsAuthenticated)
+{
+    <p>
     @Html.ActionLink("Create New", "Create")
-</p>
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -24,7 +28,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.TaskList.TaskName)
@@ -35,12 +40,16 @@
         <td>
             @Html.DisplayFor(modelItem => item.SubStatus)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SubID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SubID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SubID })
-        </td>
+        @if (Request.IsAuthenticated)
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.SubID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.SubID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SubID })
+            </td>
+        }
+        
     </tr>
-}
+    }
 
 </table>

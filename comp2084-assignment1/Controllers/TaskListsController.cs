@@ -10,11 +10,13 @@ using comp2084_assignment1.Models;
 
 namespace comp2084_assignment1.Controllers
 {
+    [Authorize]
     public class TaskListsController : Controller
     {
         private DbModel db = new DbModel();
 
         // GET: TaskLists
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.TaskLists.ToList());
