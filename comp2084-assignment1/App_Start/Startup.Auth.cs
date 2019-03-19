@@ -59,6 +59,8 @@ namespace comp2084_assignment1
             //   appId: "",
             //   appSecret: "");
 
+
+
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = ConfigurationManager.AppSettings["GoogleClientId"],
