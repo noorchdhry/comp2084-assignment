@@ -48,6 +48,9 @@
     <Reference Include="AspNet.Security.OAuth.LinkedIn, Version=2.0.0.0, Culture=neutral, PublicKeyToken=fa9e7b608b196fab, processorArchitecture=MSIL">
       <HintPath>..\packages\AspNet.Security.OAuth.LinkedIn.2.0.0-rc2-final\lib\netstandard2.0\AspNet.Security.OAuth.LinkedIn.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.dll</HintPath>
     </Reference>
@@ -289,6 +292,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
