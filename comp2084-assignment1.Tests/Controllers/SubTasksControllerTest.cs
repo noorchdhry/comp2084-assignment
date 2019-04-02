@@ -112,12 +112,70 @@ namespace comp2084_assignment1.Tests.Controllers
         }
 
         [TestMethod]
-        public void DeleteRedirectLoading()
+        public void EditSaves()
         {
             //Act
-            ViewResult result = controller.DeleteConfirmed(001) as ViewResult;
+            var result = (List<SubTask>)((ViewResult)controller.Edit(01)).Model;
             //Assert
-            Assert.AreEqual("Index", result.ViewName);
+            Assert.AreEqual(subtasks.SingleOrDefault(s => s.SubID == 01), result);
         }
+
+        [TestMethod]
+        public void ValidDeleteRedirectLoading()
+        {
+            //Act
+            RedirectToRouteResult result = controller.DeleteConfirmed(01) as RedirectToRouteResult;
+            var resultlist = result.RouteValues.ToArray();
+            //Assert
+            Assert.AreEqual("Index", resultlist[0].Value);
+        }
+
+        [TestMethod]
+        public void InvalidDeleteRedirectLoading()
+        {
+            //Act
+            RedirectToRouteResult result = controller.DeleteConfirmed(04) as RedirectToRouteResult;
+            var resultlist = result.RouteValues.ToArray();
+            //Assert
+            Assert.AreEqual("Index", resultlist[0].Value);
+        }
+
+        [TestMethod]
+        public void InvalidCreateRedirectLoading()
+        {
+            //Act
+            RedirectToRouteResult result = controller.Create(subtasks[0]) as RedirectToRouteResult;
+            var resultlist = result.RouteValues.ToArray();
+            //Assert
+            Assert.AreEqual("Index", resultlist[0].Value);
+        }
+
+        [TestMethod]
+        public void DetailsViewSubTask()
+        {
+            //Act
+            var result = (List<SubTask>)((ViewResult)controller.Details(01)).Model;
+            //Assert
+            Assert.AreEqual(subtasks.SingleOrDefault(s => s.SubID == 01), result);
+        }
+
+        [TestMethod]
+        public void DetailsView404Error()
+        {
+            //Act
+            HttpNotFoundResult result = controller.Details(04) as HttpNotFoundResult;
+            //Assert
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void DetailsViewNullId()
+        {
+            //Act
+            HttpStatusCodeResult result = controller.Details(null) as HttpStatusCodeResult;
+            //Assert
+            Assert.AreEqual(400, result.StatusCode);
+        }
+
     }
 }
