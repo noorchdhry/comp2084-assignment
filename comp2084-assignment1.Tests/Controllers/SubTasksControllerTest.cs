@@ -18,6 +18,7 @@ namespace comp2084_assignment1.Tests.Controllers
         //Moq Data
         SubTasksController controller;
         List<SubTask> subtasks;
+        Mock<IMockSubTasks> mock;
 
         [TestInitialize]
         public void TestInitialize()
@@ -29,18 +30,93 @@ namespace comp2084_assignment1.Tests.Controllers
             new SubTask { SubID = 03, SubName = "Finsh part 3", SubStatus = false, TaskID = 01}
         };
 
+            mock = new Mock<IMockSubTasks>();
+            mock.Setup(s => s.subtasks).Returns(subtasks.AsQueryable());
+
+            controller = new SubTasksController(mock.Object);
+
         }
 
         [TestMethod]
-        public void Index()
+        public void IndexViewLoads()
         {
-            // Arrange
-            SubTasksController controller = new SubTasksController();
-
             // Act
             ViewResult result = controller.Index() as ViewResult;
 
             // Assert
+            //Assert.IsNotNull(result);
+            Assert.AreEqual("Index", result.ViewName);
+        }
+         
+        [TestMethod]
+        public void IndexLoadsSubTasks()
+        {
+            //Act
+            var results = (List<SubTask>)((ViewResult)controller.Index()).Model;
+            //Assert
+            CollectionAssert.AreEqual(subtasks.ToList(), results);
+        }
+
+        [TestMethod]
+        public void EditPostIndexViewLoads()
+        {
+            //Act
+            ViewResult result = controller.Edit(001) as ViewResult;
+            //Assert
+            Assert.AreEqual("Edit", result.ViewName);
+        }
+
+        [TestMethod]
+        public void CreateGetViewLoads()
+        {
+            //Act
+            ViewResult result = controller.Create() as ViewResult;
+            //Assert 
+            Assert.AreEqual("Create", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsViewLoads()
+        {
+            //Act
+            ViewResult result = controller.Details(001) as ViewResult;
+            //Assert
+            Assert.AreEqual("Details", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteViewLoads()
+        {
+            //Act
+            ViewResult result = controller.Delete(001) as ViewResult;
+            //Assert
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [TestMethod]
+        public void CreatePostViewLoads()
+        {
+            //Act
+            ViewResult result = controller.Create(subtasks[0]) as ViewResult;
+            //Assert
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [TestMethod]
+        public void EditPostIsNotNull()
+        {
+            //Act
+            ViewResult result = controller.Edit(001) as ViewResult;
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void DeleteRedirectLoading()
+        {
+            //Act
+            ViewResult result = controller.DeleteConfirmed(001) as ViewResult;
+            //Assert
             Assert.AreEqual("Index", result.ViewName);
         }
     }

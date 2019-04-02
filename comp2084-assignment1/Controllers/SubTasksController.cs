@@ -19,7 +19,7 @@ namespace comp2084_assignment1.Controllers
         {
             this.db = new IDataSubTasks();
         }
-        public SubTasksController(IDataSubTasks mockDb)
+        public SubTasksController(IMockSubTasks mockDb)
         {
             this.db = mockDb;
         }
@@ -29,7 +29,7 @@ namespace comp2084_assignment1.Controllers
         public ActionResult Index()
         {
             var subTasks = db.subtasks.Include(s => s.TaskList);
-            return View(subTasks.ToList());
+            return View("Index", subTasks.ToList());
         }
 
         // GET: SubTasks/Details/5
@@ -45,14 +45,14 @@ namespace comp2084_assignment1.Controllers
             {
                 return HttpNotFound();
             }
-            return View(subTask);
+            return View("Details", subTask);
         }
 
         // GET: SubTasks/Create
         public ActionResult Create()
         {
             ViewBag.TaskID = new SelectList(db.tasklists, "TaskID", "TaskName");
-            return View();
+            return View("Create");
         }
 
         // POST: SubTasks/Create
@@ -88,7 +88,7 @@ namespace comp2084_assignment1.Controllers
                 return HttpNotFound();
             }
             ViewBag.TaskID = new SelectList(db.tasklists, "TaskID", "TaskName", subTask.TaskID);
-            return View(subTask);
+            return View("Edit", subTask);
         }
 
         // POST: SubTasks/Edit/5
@@ -122,7 +122,7 @@ namespace comp2084_assignment1.Controllers
             {
                 return HttpNotFound();
             }
-            return View(subTask);
+            return View("Index", subTask);
         }
 
         // POST: SubTasks/Delete/5
