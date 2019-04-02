@@ -284,7 +284,9 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DbModel.cs" />
+    <Compile Include="Models\IDataSubTasks.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IMockSubTasks.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SubTask.cs" />
     <Compile Include="Models\TaskList.cs" />

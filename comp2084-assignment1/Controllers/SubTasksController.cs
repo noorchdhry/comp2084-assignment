@@ -9,17 +9,26 @@ using System.Web.Mvc;
 using comp2084_assignment1.Models;
 
 namespace comp2084_assignment1.Controllers
-{
+{ 
     [Authorize]
     public class SubTasksController : Controller
     {
-        private DbModel db = new DbModel();
+        IMockSubTasks db;
+
+        public SubTasksController()
+        {
+            this.db = new IDataSubTasks();
+        }
+        public SubTasksController(IDataSubTasks mockDb)
+        {
+            this.db = mockDb;
+        }
 
         // GET: SubTasks
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var subTasks = db.SubTasks.Include(s => s.TaskList);
+            var subTasks = db.subtasks.Include(s => s.TaskList);
             return View(subTasks.ToList());
         }
 
@@ -30,7 +39,8 @@ namespace comp2084_assignment1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubTask subTask = db.SubTasks.Find(id);
+            //SubTask subTask = db.SubTasks.Find(id);
+            SubTask subTask = db.subtasks.SingleOrDefault(s => s.SubID == id);
             if (subTask == null)
             {
                 return HttpNotFound();
@@ -41,7 +51,7 @@ namespace comp2084_assignment1.Controllers
         // GET: SubTasks/Create
         public ActionResult Create()
         {
-            ViewBag.TaskID = new SelectList(db.TaskLists, "TaskID", "TaskName");
+            ViewBag.TaskID = new SelectList(db.tasklists, "TaskID", "TaskName");
             return View();
         }
 
@@ -54,12 +64,13 @@ namespace comp2084_assignment1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SubTasks.Add(subTask);
-                db.SaveChanges();
+                //db.SubTasks.Add(subTask);
+                //db.SaveChanges();
+                db.Save(subTask);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TaskID = new SelectList(db.TaskLists, "TaskID", "TaskName", subTask.TaskID);
+            ViewBag.TaskID = new SelectList(db.tasklists, "TaskID", "TaskName", subTask.TaskID);
             return View(subTask);
         }
 
@@ -70,12 +81,13 @@ namespace comp2084_assignment1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubTask subTask = db.SubTasks.Find(id);
+            //SubTask subTask = db.SubTasks.Find(id);
+            SubTask subTask = db.subtasks.SingleOrDefault(s => s.SubID == id);
             if (subTask == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.TaskID = new SelectList(db.TaskLists, "TaskID", "TaskName", subTask.TaskID);
+            ViewBag.TaskID = new SelectList(db.tasklists, "TaskID", "TaskName", subTask.TaskID);
             return View(subTask);
         }
 
@@ -88,11 +100,12 @@ namespace comp2084_assignment1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(subTask).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(subTask).State = EntityState.Modified;
+                //db.SaveChanges();
+                db.Save(subTask);
                 return RedirectToAction("Index");
             }
-            ViewBag.TaskID = new SelectList(db.TaskLists, "TaskID", "TaskName", subTask.TaskID);
+            ViewBag.TaskID = new SelectList(db.tasklists, "TaskID", "TaskName", subTask.TaskID);
             return View(subTask);
         }
 
@@ -103,7 +116,8 @@ namespace comp2084_assignment1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubTask subTask = db.SubTasks.Find(id);
+            //SubTask subTask = db.SubTasks.Find(id);
+            SubTask subTask = db.subtasks.SingleOrDefault(s => s.SubID == id);
             if (subTask == null)
             {
                 return HttpNotFound();
@@ -116,9 +130,11 @@ namespace comp2084_assignment1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SubTask subTask = db.SubTasks.Find(id);
-            db.SubTasks.Remove(subTask);
-            db.SaveChanges();
+            //SubTask subTask = db.SubTasks.Find(id);
+            SubTask subTask = db.subtasks.SingleOrDefault(s => s.SubID == id);
+            //db.sub.Remove(subTask);
+            //db.SaveChanges();
+            db.Delete(subTask);
             return RedirectToAction("Index");
         }
 
